@@ -490,6 +490,33 @@ body {
   line-height: 1.5;
 }
 
+/* ===== WATER FLOW ANIMATION ===== */
+.water-flow-section {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  background: #05030f;
+}
+
+.water-flow-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: scrollFlow 20s linear infinite;
+}
+
+@keyframes scrollFlow {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+
+.water-flow-section:hover .water-flow-video {
+  animation-play-state: running;
+}
+
 /* ===== WHY THIS MATTERS ===== */
 .why-section {
   padding: 70px 40px;
