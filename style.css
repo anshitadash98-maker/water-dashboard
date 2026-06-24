@@ -246,6 +246,34 @@ body {
 .badge.safe { background: #1a3d2e; color: #2ecc71; }
 
 /* ===== MAP PAGE ===== */
+.map-header {
+  background-image: url('https://cdn.builder.io/api/v1/image/assets%2Ff5a7340fc4ea4e8e84505a0fdd2ca3ce%2F55e8f74d914d4b30b3c1fa0c505c83ec?format=webp&width=800&height=1200');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.map-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(5, 10, 20, 0.7), rgba(79, 172, 254, 0.2));
+  pointer-events: none;
+}
+
+.map-header h1,
+.map-header p {
+  position: relative;
+  z-index: 10;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+}
+
 .map-section {
   position: relative;
   padding: 10px 40px 60px;
