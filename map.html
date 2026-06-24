@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Map | India Water Watch</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/geodata/india2023Low.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">💧 WATER WATCH</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="map.html" class="active">Map</a>
+      <a href="reports.html">Reports</a>
+      <a href="about.html">About</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Groundwater Map</h1>
+    <p>Click on any state to see its groundwater status (sample data)</p>
+  </div>
+
+  <section class="map-section">
+    <div id="chartdiv"></div>
+    <div class="map-legend">
+      <span class="legend-item"><span class="dot safe"></span> Safe</span>
+      <span class="legend-item"><span class="dot warning"></span> Semi-Critical</span>
+      <span class="legend-item"><span class="dot critical"></span> Critical</span>
+      <span class="legend-item"><span class="dot unknown"></span> No data</span>
+    </div>
+  </section>
+
+  <!-- Side panel that shows state details on click -->
+  <div id="state-panel" class="state-panel hidden">
+    <button id="state-panel-close" class="state-panel-close">×</button>
+    <h3 id="state-name">Select a state</h3>
+    <div id="state-details"></div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Sample groundwater data per state (id matches amCharts India map state codes)
+    const stateData = {
+      "IN-PB": { name: "Punjab", level: -8.4, districts: 23, status: "critical" },
+      "IN-HR": { name: "Haryana", level: -6.1, districts: 22, status: "critical" },
+      "IN-RJ": { name: "Rajasthan", level: -5.7, districts: 33, status: "warning" },
+      "IN-TN": { name: "Tamil Nadu", level: -2.3, districts: 38, status: "warning" },
+      "IN-KL": { name: "Kerala", level: -0.8, districts: 14, status: "safe" },
+      "IN-WB": { name: "West Bengal", level: -1.1, districts: 23, status: "safe" },
+      "IN-OR": { name: "Odisha", level: -0.6, districts: 30, status: "safe" },
+      "IN-MH": { name: "Maharashtra", level: -3.4, districts: 36, status: "warning" },
+      "IN-GJ": { name: "Gujarat", level: -4.2, districts: 33, status: "warning" },
+      "IN-UP": { name: "Uttar Pradesh", level: -5.9, districts: 75, status: "critical" },
+      "IN-KA": { name: "Karnataka", level: -2.8, districts: 31, status: "warning" },
+      "IN-AP": { name: "Andhra Pradesh", level: -1.9, districts: 13, status: "safe" },
+      "IN-MP": { name: "Madhya Pradesh", level: -3.1, districts: 55, status: "warning" },
+      "IN-BR": { name: "Bihar", level: -1.4, districts: 38, status: "safe" },
+    };
+
+    const statusColors = {
+      safe: "#2ecc71",
+      warning: "#f5a623",
+      critical: "#e74c3c",
+      unknown: "#3a4658",
+    };
+
+    am5.ready(function () {
+      const root = am5.Root.new("chartdiv");
+      root.setThemes([am5themes_Animated.new(root)]);
+
+      const chart = root.container.children.push(
+        am5map.MapChart.new(root, {
+          panX: "rotateX",
+          panY: "none",
+          projection: am5map.geoMercator(),
+        })
+      );
+
+      const polygonSeries = chart.series.push(
+        am5map.MapPolygonSeries.new(root, {
+          geoJSON: am5geodata_india2023Low,
+        })
+      );
+
+      polygonSeries.mapPolygons.template.setAll({
+        tooltipText: "{name}",
+        interactive: true,
+        stroke: am5.color("#05030f"),
+        strokeWidth: 1,
+      });
+
+      // Color each state based on its groundwater status
+      polygonSeries.mapPolygons.template.adapters.add("fill", (fill, target) => {
+        const id = target.dataItem && target.dataItem.dataContext.id;
+        const data = stateData[id];
+        return data ? am5.color(statusColors[data.status]) : am5.color(statusColors.unknown);
+      });
+
+      polygonSeries.mapPolygons.template.states.create("hover", {
+        fill: am5.color("#4facfe"),
+      });
+
+      // Click handler: show state details panel
+      polygonSeries.mapPolygons.template.events.on("click", (ev) => {
+        const id = ev.target.dataItem.dataContext.id;
+        const data = stateData[id];
+        const panel = document.getElementById("state-panel");
+        const nameEl = document.getElementById("state-name");
+        const detailsEl = document.getElementById("state-details");
+
+        if (data) {
+          nameEl.textContent = data.name;
+          detailsEl.innerHTML = `
+            <div class="state-stat"><span>Water Level</span><strong>${data.level} m</strong></div>
+            <div class="state-stat"><span>Districts</span><strong>${data.districts}</strong></div>
+            <div class="state-stat"><span>Status</span><span class="badge ${data.status}">${data.status}</span></div>
+          `;
+        } else {
+          nameEl.textContent = ev.target.dataItem.dataContext.name || "Unknown";
+          detailsEl.innerHTML = `<p style="color:#9aa8b8; font-size:13px;">No groundwater data available yet for this state.</p>`;
+        }
+        panel.classList.remove("hidden");
+      });
+
+      document.getElementById("state-panel-close").addEventListener("click", () => {
+        document.getElementById("state-panel").classList.add("hidden");
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | India Water Watch</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">💧 WATER WATCH</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="map.html">Map</a>
+      <a href="reports.html">Reports</a>
+      <a href="about.html">About</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Groundwater Dashboard</h1>
+    <p>Live overview of India's groundwater health (sample data)</p>
+  </div>
+
+  <!-- ===== STATS CARDS ===== -->
+  <section class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">Avg Water Level</span>
+      <span class="stat-value">-3.2<small>m</small></span>
+      <span class="stat-trend down">↓ 0.4m vs last year</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Districts Monitored</span>
+      <span class="stat-value">734</span>
+      <span class="stat-trend up">↑ 12 new this month</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Critical Zones</span>
+      <span class="stat-value warning">89</span>
+      <span class="stat-trend down">↑ 5 since last quarter</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Safe Zones</span>
+      <span class="stat-value good">412</span>
+      <span class="stat-trend up">↑ 8 improved</span>
+    </div>
+  </section>
+
+  <!-- ===== CHARTS ===== -->
+  <section class="charts-grid">
+    <div class="chart-card">
+      <h3>Water Level Trend (last 6 months)</h3>
+      <canvas id="trendChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Zone Classification</h3>
+      <canvas id="zoneChart"></canvas>
+    </div>
+  </section>
+
+  <!-- ===== STATE-WISE TABLE ===== -->
+  <section class="table-section">
+    <h3>State-wise Groundwater Status</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>State</th>
+          <th>Avg Level (m)</th>
+          <th>Districts</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Punjab</td><td>-8.4</td><td>23</td><td><span class="badge critical">Critical</span></td></tr>
+        <tr><td>Haryana</td><td>-6.1</td><td>22</td><td><span class="badge critical">Critical</span></td></tr>
+        <tr><td>Rajasthan</td><td>-5.7</td><td>33</td><td><span class="badge warning">Semi-Critical</span></td></tr>
+        <tr><td>Tamil Nadu</td><td>-2.3</td><td>38</td><td><span class="badge warning">Semi-Critical</span></td></tr>
+        <tr><td>Kerala</td><td>-0.8</td><td>14</td><td><span class="badge safe">Safe</span></td></tr>
+        <tr><td>West Bengal</td><td>-1.1</td><td>23</td><td><span class="badge safe">Safe</span></td></tr>
+        <tr><td>Odisha</td><td>-0.6</td><td>30</td><td><span class="badge safe">Safe</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <script src="script.js"></script>
+  <script>
+    // Line chart: water level trend
+    new Chart(document.getElementById('trendChart'), {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Avg Water Level (m)',
+          data: [-2.1, -2.4, -2.6, -2.9, -3.0, -3.2],
+          borderColor: '#4facfe',
+          backgroundColor: 'rgba(79,172,254,0.15)',
+          fill: true,
+          tension: 0.35,
+          pointBackgroundColor: '#4facfe',
+        }]
+      },
+      options: {
+        plugins: { legend: { labels: { color: '#9aa8b8' } } },
+        scales: {
+          x: { ticks: { color: '#9aa8b8' }, grid: { color: '#1c2a3a' } },
+          y: { ticks: { color: '#9aa8b8' }, grid: { color: '#1c2a3a' } }
+        }
+      }
+    });
+
+    // Doughnut chart: zone classification
+    new Chart(document.getElementById('zoneChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Safe', 'Semi-Critical', 'Critical'],
+        datasets: [{
+          data: [412, 233, 89],
+          backgroundColor: ['#2ecc71', '#f5a623', '#e74c3c'],
+          borderColor: '#05030f',
+          borderWidth: 3,
+        }]
+      },
+      options: {
+        plugins: { legend: { position: 'bottom', labels: { color: '#9aa8b8' } } }
+      }
+    });
+  </script>
+</body>
+</html>

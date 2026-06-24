@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reports | India Water Watch</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">💧 WATER WATCH</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="map.html">Map</a>
+      <a href="reports.html" class="active">Reports</a>
+      <a href="about.html">About</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Reports</h1>
+    <p>Detailed district-wise groundwater reports (sample data)</p>
+  </div>
+
+  <!-- ===== FILTER BAR ===== -->
+  <section class="reports-toolbar">
+    <div class="filter-group">
+      <label for="stateFilter">State</label>
+      <select id="stateFilter">
+        <option value="all">All States</option>
+        <option value="Punjab">Punjab</option>
+        <option value="Haryana">Haryana</option>
+        <option value="Rajasthan">Rajasthan</option>
+        <option value="Tamil Nadu">Tamil Nadu</option>
+        <option value="Kerala">Kerala</option>
+        <option value="West Bengal">West Bengal</option>
+        <option value="Odisha">Odisha</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="statusFilter">Status</label>
+      <select id="statusFilter">
+        <option value="all">All Status</option>
+        <option value="safe">Safe</option>
+        <option value="warning">Semi-Critical</option>
+        <option value="critical">Critical</option>
+      </select>
+    </div>
+    <button id="downloadBtn" class="download-btn">⬇ Download CSV</button>
+  </section>
+
+  <!-- ===== REPORTS TABLE ===== -->
+  <section class="table-section">
+    <table class="data-table" id="reportsTable">
+      <thead>
+        <tr>
+          <th>District</th>
+          <th>State</th>
+          <th>Water Level (m)</th>
+          <th>Recharge Rate (%)</th>
+          <th>Last Updated</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="reportsBody">
+        <!-- rows injected by script.js below -->
+      </tbody>
+    </table>
+  </section>
+
+  <script src="script.js"></script>
+  <script>
+    const reportData = [
+      { district: "Ludhiana", state: "Punjab", level: -9.1, recharge: 38, updated: "2026-06-18", status: "critical" },
+      { district: "Bathinda", state: "Punjab", level: -8.0, recharge: 41, updated: "2026-06-18", status: "critical" },
+      { district: "Hisar", state: "Haryana", level: -6.5, recharge: 45, updated: "2026-06-17", status: "critical" },
+      { district: "Karnal", state: "Haryana", level: -5.8, recharge: 49, updated: "2026-06-17", status: "warning" },
+      { district: "Jaipur", state: "Rajasthan", level: -6.2, recharge: 42, updated: "2026-06-16", status: "critical" },
+      { district: "Jodhpur", state: "Rajasthan", level: -5.1, recharge: 47, updated: "2026-06-16", status: "warning" },
+      { district: "Coimbatore", state: "Tamil Nadu", level: -2.6, recharge: 61, updated: "2026-06-15", status: "warning" },
+      { district: "Madurai", state: "Tamil Nadu", level: -1.9, recharge: 66, updated: "2026-06-15", status: "safe" },
+      { district: "Kochi", state: "Kerala", level: -0.7, recharge: 78, updated: "2026-06-14", status: "safe" },
+      { district: "Kolkata", state: "West Bengal", level: -1.2, recharge: 73, updated: "2026-06-14", status: "safe" },
+      { district: "Bhubaneswar", state: "Odisha", level: -0.5, recharge: 80, updated: "2026-06-13", status: "safe" },
+    ];
+
+    const tbody = document.getElementById("reportsBody");
+    const stateFilter = document.getElementById("stateFilter");
+    const statusFilter = document.getElementById("statusFilter");
+
+    function statusLabel(status) {
+      return { safe: "Safe", warning: "Semi-Critical", critical: "Critical" }[status];
+    }
+
+    function renderRows() {
+      const stateVal = stateFilter.value;
+      const statusVal = statusFilter.value;
+
+      const filtered = reportData.filter(r =>
+        (stateVal === "all" || r.state === stateVal) &&
+        (statusVal === "all" || r.status === statusVal)
+      );
+
+      tbody.innerHTML = filtered.map(r => `
+        <tr>
+          <td>${r.district}</td>
+          <td>${r.state}</td>
+          <td>${r.level}</td>
+          <td>${r.recharge}%</td>
+          <td>${r.updated}</td>
+          <td><span class="badge ${r.status}">${statusLabel(r.status)}</span></td>
+        </tr>
+      `).join("");
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#9aa8b8;">No records match this filter.</td></tr>`;
+      }
+    }
+
+    stateFilter.addEventListener("change", renderRows);
+    statusFilter.addEventListener("change", renderRows);
+    renderRows();
+
+    // Download as CSV
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      const rows = [["District", "State", "Water Level (m)", "Recharge Rate (%)", "Last Updated", "Status"]];
+      reportData.forEach(r => {
+        rows.push([r.district, r.state, r.level, r.recharge, r.updated, statusLabel(r.status)]);
+      });
+      const csvContent = rows.map(row => row.join(",")).join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "groundwater_report.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
