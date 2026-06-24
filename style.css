@@ -643,6 +643,73 @@ body {
   line-height: 1.7;
 }
 
+/* ===== GROUNDWATER BACKGROUND ANIMATION ===== */
+.groundwater-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(79, 172, 254, 0.08) 0%, rgba(5, 10, 20, 0) 50%, rgba(79, 172, 254, 0.05) 100%);
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.groundwater-bg::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(79, 172, 254, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(79, 172, 254, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(79, 172, 254, 0.12) 0%, transparent 50%);
+  animation: flowWater 20s ease-in-out infinite;
+}
+
+.groundwater-bg::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(0deg, rgba(79, 172, 254, 0.1) 0%, transparent 30%),
+    linear-gradient(180deg, transparent 70%, rgba(79, 172, 254, 0.08) 100%);
+  animation: shimmerFlow 15s ease-in-out infinite;
+}
+
+@keyframes flowWater {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(30px, -30px) rotate(90deg);
+  }
+  50% {
+    transform: translate(0, -60px) rotate(180deg);
+  }
+  75% {
+    transform: translate(-30px, -30px) rotate(270deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
+  }
+}
+
+@keyframes shimmerFlow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
 @media (max-width: 700px) {
   .feature-section, .why-section { padding: 40px 20px; }
 }
