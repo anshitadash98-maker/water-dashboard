@@ -121,20 +121,6 @@ body {
 /* ===== PAGE HEADER (used on Dashboard, Map, Reports, About) ===== */
 .page-header {
   padding: 50px 40px 20px;
-  display: flex;
-  gap: 30px;
-  align-items: flex-start;
-}
-
-.header-image {
-  width: 200px;
-  height: auto;
-  border-radius: 14px;
-  flex-shrink: 0;
-}
-
-.header-text {
-  flex: 1;
 }
 
 .page-header h1 {
