@@ -2,9 +2,13 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
   background: #05030f;
   color: #ffffff;
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ===== NAVBAR ===== */
@@ -84,17 +88,20 @@ body {
 }
 
 .hero-text h1 {
-  font-size: 42px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  font-size: 52px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  text-shadow: 0 6px 30px rgba(0,0,0,0.7);
+  line-height: 1.1;
 }
 
 .hero-text p {
-  margin-top: 10px;
-  font-size: 15px;
-  color: #d0d8e0;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+  margin-top: 12px;
+  font-size: 18px;
+  color: #d8dfe8;
+  text-shadow: 0 3px 15px rgba(0,0,0,0.7);
+  letter-spacing: 0.2px;
+  font-weight: 400;
 }
 .hero-text {
   position: absolute;
@@ -124,14 +131,19 @@ body {
 }
 
 .page-header h1 {
-  font-size: 32px;
-  font-weight: 800;
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 8px;
 }
 
 .page-header p {
-  color: #9aa8b8;
-  font-size: 14px;
-  margin-top: 6px;
+  color: #b0b8c8;
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: 8px;
+  letter-spacing: 0.2px;
 }
 
 /* ===== DASHBOARD HEADER BACKGROUND ===== */
@@ -183,18 +195,22 @@ body {
 
 .stat-label {
   font-size: 13px;
-  color: #9aa8b8;
+  color: #b0b8c8;
+  font-weight: 500;
+  letter-spacing: 0.2px;
 }
 
 .stat-value {
-  font-size: 32px;
-  font-weight: 800;
+  font-size: 40px;
+  font-weight: 900;
   color: #ffffff;
+  letter-spacing: -0.5px;
 }
 
 .stat-value small {
-  font-size: 16px;
-  color: #9aa8b8;
+  font-size: 18px;
+  color: #b0b8c8;
+  font-weight: 500;
 }
 
 .stat-value.warning { color: #f5a623; }
@@ -409,18 +425,22 @@ body {
   background: linear-gradient(145deg, #0d1530, #060912);
   border: 1px solid #1c2a3a;
   border-radius: 14px;
-  padding: 24px;
+  padding: 28px;
 }
 
 .about-card h3 {
-  font-size: 17px;
-  margin-bottom: 12px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  letter-spacing: 0.3px;
+  color: #ffffff;
 }
 
 .about-card p {
-  font-size: 14px;
-  color: #9aa8b8;
-  line-height: 1.6;
+  font-size: 15px;
+  color: #b0b8c8;
+  line-height: 1.8;
+  letter-spacing: 0.2px;
 }
 /* ===== REPORTS PAGE ===== */
 .reports-bg-video {
@@ -589,14 +609,17 @@ body {
 }
 
 .quick-stat-value {
-  font-size: 30px;
-  font-weight: 800;
+  font-size: 36px;
+  font-weight: 900;
   color: #4facfe;
+  letter-spacing: -0.5px;
 }
 
 .quick-stat-label {
-  font-size: 13px;
-  color: #9aa8b8;
+  font-size: 14px;
+  color: #b0b8c8;
+  font-weight: 500;
+  letter-spacing: 0.2px;
 }
 
 /* ===== FEATURE PREVIEW CARDS ===== */
@@ -606,8 +629,10 @@ body {
 }
 
 .feature-section h2 {
-  font-size: 28px;
-  margin-bottom: 30px;
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 40px;
+  letter-spacing: -0.5px;
 }
 
 .feature-grid {
@@ -635,18 +660,21 @@ body {
 }
 
 .feature-icon {
-  font-size: 30px;
+  font-size: 36px;
 }
 
 .feature-card h3 {
-  font-size: 18px;
-  margin: 14px 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 16px 0 10px;
+  letter-spacing: 0.2px;
 }
 
 .feature-card p {
-  font-size: 13px;
-  color: #9aa8b8;
-  line-height: 1.5;
+  font-size: 14px;
+  color: #b0b8c8;
+  line-height: 1.7;
+  letter-spacing: 0.2px;
 }
 
 /* ===== WATER FLOW ANIMATION ===== */
@@ -690,14 +718,17 @@ body {
 }
 
 .why-content h2 {
-  font-size: 28px;
-  margin-bottom: 18px;
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  letter-spacing: -0.5px;
 }
 
 .why-content p {
-  font-size: 15px;
-  color: #9aa8b8;
-  line-height: 1.7;
+  font-size: 16px;
+  color: #b0b8c8;
+  line-height: 1.9;
+  letter-spacing: 0.2px;
 }
 
 /* ===== GROUNDWATER BACKGROUND ANIMATION ===== */
